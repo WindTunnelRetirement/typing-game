@@ -1,0 +1,32 @@
+<div class="max-w-3xl mx-auto p-6">
+  <h1 class="text-2xl font-bold mb-4">タイピング問題チャレンジ</h1>
+
+  <div id="problem-text" class="text-xl mb-6">
+    <%= @typing_problem.content %>
+  </div>
+
+  <div>
+    <label for="typing-input" class="block mb-1 font-semibold">ここにタイピングしてください</label>
+    <input id="typing-input" type="text" class="w-full border rounded px-3 py-2" autocomplete="off" autofocus />
+  </div>
+
+  <div id="status" class="mt-4 text-gray-600">
+    打鍵状況などここに表示
+  </div>
+</div>
+
+<script>
+  // 今回は簡単にバニラJSで動作イメージ
+  const problemText = document.getElementById('problem-text').textContent;
+  const typingInput = document.getElementById('typing-input');
+  const statusDiv = document.getElementById('status');
+
+  typingInput.addEventListener('input', () => {
+    const typed = typingInput.value;
+    if (problemText.startsWith(typed)) {
+      statusDiv.textContent = `OK! 打鍵中: ${typed.length} / ${problemText.length}`;
+    } else {
+      statusDiv.textContent = `間違いがあります！`;
+    }
+  });
+</script>

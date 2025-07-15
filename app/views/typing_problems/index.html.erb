@@ -1,0 +1,11 @@
+<h1 class="text-xl font-bold mb-4">タイピング問題一覧</h1>
+
+<ul>
+  <% @typing_problems&.each do |problem| %>
+    <li class="mb-2">
+      <%= problem.content.truncate(30) %>
+      |
+      <%= link_to "タイピング開始", play_typing_problem_path(problem), class: "text-blue-600 underline" %>
+    </li>
+  <% end %>
+</ul>

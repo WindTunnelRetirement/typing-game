@@ -1,0 +1,27 @@
+FROM ruby:3.3.0-slim
+
+WORKDIR /app
+
+# 必要なパッケージと Yarn
+RUN apt-get update -qq && \
+    apt-get install -y --no-install-recommends \
+    build-essential \
+    curl \
+    gnupg \
+    libpq-dev \
+    libyaml-dev \
+    nodejs \
+    sqlite3 \
+    git && \
+    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor -o /usr/share/keyrings/yarn.gpg && \
+    echo "deb [signed-by=/usr/share/keyrings/yarn.gpg] https://dl.yarnpkg.com/debian stable main" > /etc/apt/sources.list.d/yarn.list && \
+    apt-get update -qq && \
+    apt-get install -y yarn && \
+    rm -rf /var/lib/apt/lists/*
+
+COPY Gemfile Gemfile.lock ./
+RUN bundle install
+
+COPY . .
+
+CMD ["bin/rails", "server", "-b", "0.0.0.0"]

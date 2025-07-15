@@ -1,0 +1,2 @@
+class TypingProblem < ApplicationRecord
+end
