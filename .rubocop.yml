@@ -1,6 +1,7 @@
 AllCops:
   NewCops: enable
   TargetRubyVersion: 3.3.0
+  SuggestExtensions: false
   Exclude:
     - 'bin/*'
     - 'db/schema.rb'
@@ -13,7 +14,6 @@ AllCops:
     - 'config/boot.rb'
     - 'config/environment.rb'
     - 'config/environments/*'
-    - 'config/initializers/*'
     - 'config/puma.rb'
     - 'config/routes.rb'
     - 'config/application.rb'
@@ -26,6 +26,7 @@ Layout/LineLength:
   Exclude:
     - 'config/**/*'
     - 'db/migrate/*'
+    - 'db/seeds.rb'
 
 Style/Documentation:
   Enabled: false
@@ -33,21 +34,21 @@ Style/Documentation:
 Style/FrozenStringLiteralComment:
   Enabled: true
   EnforcedStyle: always
-  AutoCorrect: true
 
 Style/StringLiterals:
   Enabled: true
   EnforcedStyle: single_quotes
-  AutoCorrect: true
 
 Layout/TrailingEmptyLines:
   Enabled: true
-  AutoCorrect: true
 
 Layout/FirstArrayElementIndentation:
   Enabled: true
   EnforcedStyle: consistent
-  AutoCorrect: true
+
+Layout/EndOfLine:
+  Enabled: true
+  EnforcedStyle: lf
 
 Metrics/BlockLength:
   Exclude:
@@ -56,3 +57,12 @@ Metrics/BlockLength:
     - 'spec/**/*'
     - 'test/**/*'
     - 'db/seeds.rb'
+
+Metrics/MethodLength:
+  Exclude:
+    - 'db/migrate/*'
+    - 'db/seeds.rb'
+
+Style/GlobalVars:
+  Exclude:
+    - 'config/**/*'
