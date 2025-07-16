@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    
     services:
       postgres:
         image: postgres:14
@@ -22,24 +22,30 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-
+    
     steps:
-      - uses: actions/checkout@v3
-
+      - uses: actions/checkout@v4
+      
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.3.0
           bundler-cache: true
-
+      
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get -yqq install libpq-dev
+      
       - name: Set up DB
         run: |
-          sudo apt-get -yqq install libpq-dev
           cp config/database.yml.ci config/database.yml
           bundle exec rails db:setup
-
+        env:
+          RAILS_ENV: test
+      
       - name: Run RuboCop
-        run: bundle exec rubocop
-
+        run: bundle exec rubocop --parallel
+        
       # - name: Run tests
-      #   run: bundle exec rails test # ← まだテストないならスキップOK
+      #   run: bundle exec rails test

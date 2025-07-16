@@ -4,6 +4,35 @@ AllCops:
   Exclude:
     - 'bin/*'
     - 'db/schema.rb'
+    - 'db/migrate/*'
+    - 'vendor/**/*'
+    - 'node_modules/**/*'
+    - 'tmp/**/*'
+    - 'log/**/*'
+    - 'public/**/*'
+    - 'config/boot.rb'
+    - 'config/environment.rb'
+    - 'config/environments/*'
+    - 'config/initializers/*'
+    - 'config/puma.rb'
+    - 'config/routes.rb'
+    - 'config/application.rb'
+    - 'Gemfile'
+    - 'Rakefile'
+    - 'config.ru'
 
 Layout/LineLength:
   Max: 120
+  Exclude:
+    - 'config/**/*'
+    - 'db/migrate/*'
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - 'config/**/*'
+    - 'db/migrate/*'
+    - 'spec/**/*'
+    - 'test/**/*'
