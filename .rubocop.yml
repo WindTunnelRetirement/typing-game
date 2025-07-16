@@ -1,0 +1,68 @@
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 3.3.0
+  SuggestExtensions: false
+  Exclude:
+    - 'bin/*'
+    - 'db/schema.rb'
+    - 'db/migrate/*'
+    - 'vendor/**/*'
+    - 'node_modules/**/*'
+    - 'tmp/**/*'
+    - 'log/**/*'
+    - 'public/**/*'
+    - 'config/boot.rb'
+    - 'config/environment.rb'
+    - 'config/environments/*'
+    - 'config/puma.rb'
+    - 'config/routes.rb'
+    - 'config/application.rb'
+    - 'Gemfile'
+    - 'Rakefile'
+    - 'config.ru'
+
+Layout/LineLength:
+  Max: 120
+  Exclude:
+    - 'config/**/*'
+    - 'db/migrate/*'
+    - 'db/seeds.rb'
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
+  EnforcedStyle: always
+
+Style/StringLiterals:
+  Enabled: true
+  EnforcedStyle: single_quotes
+
+Layout/TrailingEmptyLines:
+  Enabled: true
+
+Layout/FirstArrayElementIndentation:
+  Enabled: true
+  EnforcedStyle: consistent
+
+Layout/EndOfLine:
+  Enabled: true
+  EnforcedStyle: lf
+
+Metrics/BlockLength:
+  Exclude:
+    - 'config/**/*'
+    - 'db/migrate/*'
+    - 'spec/**/*'
+    - 'test/**/*'
+    - 'db/seeds.rb'
+
+Metrics/MethodLength:
+  Exclude:
+    - 'db/migrate/*'
+    - 'db/seeds.rb'
+
+Style/GlobalVars:
+  Exclude:
+    - 'config/**/*'
