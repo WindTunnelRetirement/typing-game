@@ -24,10 +24,12 @@
   document.addEventListener("turbo:load", () => {
     const input = document.getElementById("typing-input");
     const display = document.getElementById("problem-display");
-    const resultDiv = document.getElementById("result");
-
+    const result = document.getElementById("result");
     const answer = "<%= j @typing_problem.content %>";
-    const nextUrl = "<%= @next_problem ? play_typing_problem_path(@next_problem) : root_path %>";
+    const nextUrl = "<%= @next_problem.present? ? play_typing_problem_path(@next_problem) : root_path %>";
+
+    let completed = false;
+    const startTime = performance.now();
 
     function renderProblem() {
       display.innerHTML = "";
@@ -39,17 +41,10 @@
       }
     }
 
-    let startTime = null;
-
     input.addEventListener("input", () => {
       const userInput = input.value;
       const spans = display.querySelectorAll("span");
-
-      if (startTime === null && userInput.length > 0) {
-        startTime = new Date();
-      }
-
-      let allCorrect = true;
+      let correctCount = 0;
 
       for (let i = 0; i < spans.length; i++) {
         const expectedChar = answer[i];
@@ -57,58 +52,28 @@
 
         if (typedChar == null) {
           spans[i].className = "";
-          allCorrect = false;
         } else if (typedChar === expectedChar) {
           spans[i].className = "text-green-600";
+          correctCount++;
         } else {
           spans[i].className = "text-red-600";
-          allCorrect = false;
         }
       }
 
-      if (userInput.length === answer.length) {
-        const endTime = new Date();
-        const elapsed = ((endTime - startTime) / 1000).toFixed(2);
-
-        let correctCount = 0;
-        for (let i = 0; i < answer.length; i++) {
-          if (userInput[i] === answer[i]) {
-            correctCount++;
-          }
-        }
-
+      if (userInput === answer && !completed) {
+        completed = true;
+        const endTime = performance.now();
+        const seconds = ((endTime - startTime) / 1000).toFixed(2);
+        const speed = (answer.length / seconds).toFixed(2);
         const accuracy = ((correctCount / answer.length) * 100).toFixed(1);
-        const wpm = (answer.length / elapsed).toFixed(2);
+        result.innerHTML = `✅ ${seconds} 秒で正解！<br>📈 速度: ${speed}文字/秒<br>🎯 正確率: ${accuracy}%<br>⌨️ Enterキーで次へ`;
 
-        if (correctCount === answer.length) {
-          resultDiv.innerHTML = `✅ <span class="text-green-600">${elapsed} 秒</span>で正解！<br>
-            📈 速度: <span class="font-bold">${wpm}文字/秒</span><br>
-            🎯 正確率: <span class="font-bold">${accuracy}%</span><br>
-            ⌨️ Enterキーで次へ`;
-          resultDiv.className = "mt-4 text-green-600 text-lg font-bold";
-        } else {
-          resultDiv.innerHTML = `❌ 間違いがあります<br>
-            📈 速度: <span class="font-bold">${wpm}文字/秒</span><br>
-            🎯 正確率: <span class="font-bold text-yellow-600">${accuracy}%</span><br>
-            ⌨️ Enterキーでリトライ`;
-          resultDiv.className = "mt-4 text-red-600 text-lg font-bold";
-        }
-      }
-    });
-
-    // Enterキーで遷移 or リセット
-    input.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" && input.value.length === answer.length) {
-        const spans = display.querySelectorAll("span");
-        const correct = [...spans].every(span => span.className === "text-green-600");
-
-        if (correct) {
-          window.location.href = nextUrl;
-        } else {
-          input.value = "";
-          resultDiv.textContent = "";
-          spans.forEach(span => span.className = "");
-        }
+        // Enterで次へ
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") {
+            window.location.href = nextUrl;
+          }
+        });
       }
     });
 
