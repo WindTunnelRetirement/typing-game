@@ -1,8 +1,9 @@
 class TypingProblemsController < ApplicationController
   def index
-    @problems = TypingProblem.all
+    @typing_problems = TypingProblem.all
   end
   def play
-  @typing_problem = TypingProblem.find(params[:id])
+    @typing_problem = TypingProblem.find(params[:id])
+    @next_problem = TypingProblem.where("id > ?", @typing_problem.id).first
   end
 end
