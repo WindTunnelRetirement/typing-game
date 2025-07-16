@@ -30,9 +30,29 @@ Layout/LineLength:
 Style/Documentation:
   Enabled: false
 
+Style/FrozenStringLiteralComment:
+  Enabled: true
+  EnforcedStyle: always
+  AutoCorrect: true
+
+Style/StringLiterals:
+  Enabled: true
+  EnforcedStyle: single_quotes
+  AutoCorrect: true
+
+Layout/TrailingEmptyLines:
+  Enabled: true
+  AutoCorrect: true
+
+Layout/FirstArrayElementIndentation:
+  Enabled: true
+  EnforcedStyle: consistent
+  AutoCorrect: true
+
 Metrics/BlockLength:
   Exclude:
     - 'config/**/*'
     - 'db/migrate/*'
     - 'spec/**/*'
     - 'test/**/*'
+    - 'db/seeds.rb'
